@@ -1,5 +1,6 @@
 
 const fs = require('fs');
+const { json } = require('stream/consumers');
 
 let data;
 
@@ -40,6 +41,7 @@ function parseCsvToJSON(data) {
     // 10) aggiungere l'oggetto all'array temporaneo
     // 11) fare strigify dell'array temporaneo
     // 12) ritornare la stringa json
+    return JSON.stringify(data.split(/\r?\n/).map((r, i, a) => r.split(',').reduce((p, c, i) => ({...p, [a[0].split(',')[i]]: c}), {} )).slice(1))
 }
 
 function writeJsonToFile(json) {
