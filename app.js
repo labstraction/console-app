@@ -1,15 +1,17 @@
 
 const fs = require('fs');
-const { json } = require('stream/consumers');
-
 let data;
+
+const inputUrl = process.argv[2]
+const outputUrl = process.argv[3]
+
 
 try {
 
-    data = fs.readFileSync('./data/test.csv', 'utf8');
+    data = fs.readFileSync(inputUrl, 'utf8');
     console.log('csv letto:', data);
     const json = parseCsvToJSON(data);
-    writeJsonToFile(json);
+    writeJsonToFile(json, outputUrl);
 
 } catch (err) {
 
@@ -58,10 +60,10 @@ function parseCsvToJSON(data) {
     // return JSON.stringify(data.split(/\r?\n/).map((r, i, a) => r.split(',').reduce((p, c, i) => ({...p, [a[0].split(',')[i]]: c}), {} )).slice(1))
 }
 
-function writeJsonToFile(json) {
+function writeJsonToFile(json, outputUrl) {
 
     try {
-        fs.writeFileSync('./output/test.json', json);
+        fs.writeFileSync(outputUrl, json);
         // file written successfully
     } catch (err) {
         console.error(err);
